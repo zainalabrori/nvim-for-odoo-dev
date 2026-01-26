@@ -1,0 +1,1 @@
+# nvim-for-odoo-dev
