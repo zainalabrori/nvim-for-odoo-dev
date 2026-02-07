@@ -103,7 +103,7 @@ require("lazy").setup({
     config = function()
       require("catppuccin").setup({
         flavour = "mocha",
-        transparent_background = false,
+        transparent_background = true,
         integrations = {
           treesitter = true,
           native_lsp = { enabled = true },
@@ -152,7 +152,7 @@ require("lazy").setup({
     config = function()
       require("mason").setup()
       require("mason-lspconfig").setup({
-        ensure_installed = { "pyright", "html", "cssls", "ts_ls" },
+        ensure_installed = { "pyright" },  -- Only Python
         automatic_installation = true,
       })
 
@@ -172,7 +172,7 @@ require("lazy").setup({
       vim.api.nvim_create_autocmd("FileType", {
         pattern = "xml",
         callback = function()
-          vim.diagnostic.disable(0)
+          vim.diagnostic.enable(false, { bufnr = 0 })
         end,
       })
 
@@ -189,6 +189,7 @@ require("lazy").setup({
               autoSearchPaths = true,
               useLibraryCodeForTypes = true,
               diagnosticMode = "workspace",
+              autoImportCompletions = false,
             },
           },
         },
@@ -202,30 +203,6 @@ require("lazy").setup({
         capabilities = capabilities,
       }
       vim.lsp.enable("lemminx")
-
-      -- JavaScript
-      vim.lsp.config.ts_ls = {
-        cmd = { "typescript-language-server", "--stdio" },
-        filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
-        capabilities = capabilities,
-      }
-      vim.lsp.enable("ts_ls")
-
-      -- HTML
-      vim.lsp.config.html = {
-        cmd = { "vscode-html-language-server", "--stdio" },
-        filetypes = { "html" },
-        capabilities = capabilities,
-      }
-      vim.lsp.enable("html")
-
-      -- CSS
-      vim.lsp.config.cssls = {
-        cmd = { "vscode-css-language-server", "--stdio" },
-        filetypes = { "css", "scss", "less" },
-        capabilities = capabilities,
-      }
-      vim.lsp.enable("cssls")
 
       -- Keymaps
       vim.api.nvim_create_autocmd("LspAttach", {
